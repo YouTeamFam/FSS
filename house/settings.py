@@ -37,8 +37,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'userapp',
+    'adapp',
+    'chatRecordapp',
+    'checkapp',
+    'homepageapp',
+    'houseapp',
+    'landlordapp',
+    'mainapp',
+    'messageapp',
+    'suggestapp',
     'systemapp',
+    'transapp',
+    'userapp'
 ]
 
 MIDDLEWARE = [
@@ -79,7 +89,7 @@ WSGI_APPLICATION = 'house.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'house',
+        'NAME': 'house1',
         'HOST': '120.27.10.187',
         'PORT': 3306,
         'USER': 'root',

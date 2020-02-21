@@ -1,7 +1,7 @@
  <div class="vernav2 iconmenu">
     	<ul>
             {% if request.session.type == '超级管理员' %}
-                <li><a href="forms.html" class="widgets">系统管理</a></li>
+                <li><a href="#role_menu" class="widgets">系统管理</a></li>
                 <span class="arrow"></span>
                     <ul id="role_menu">
                         <li><a href="/role/">内部角色管理</a></li>
@@ -11,16 +11,16 @@
                         <li><a href="editor.html">新房房源信息管理</a></li>
                         <li><a href="editor.html">房东信息管理</a></li>
                     </ul>
-                <li><a href="#role_menu" class="support">消息推送</a>
+                <li><a href="#tui_message" class="support">消息推送</a>
                     <span class="arrow"></span>
-                    <ul id="role_menu">
+                    <ul id="tui_message">
                         <li><a href="/role/">推送消息到用户</a></li>
                         <li><a href="/list_sysuser/">推送消息到广告商</a></li>
                     </ul>
                 </li>
-                <li><a href="elements.html" class="drafts">首页管理</a></li>
+                <li><a href="#home_display" class="drafts">首页管理</a></li>
                     <span class="arrow"></span>
-                    <ul id="role_menu">
+                    <ul id="home_display">
                         <li><a href="/role/">轮播图</a></li>
                         <li><a href="/list_sysuser/">二手好房</a></li>
                         <li><a href="/list_sysuser/">精选租房</a></li>
@@ -29,22 +29,21 @@
             {% endif %}
 
         {% if request.session.type == '普通管理员' %}
-             <li><a href="forms.html" class="widgets">系统管理</a></li>
-                <span class="arrow"></span>
-                    <ul id="role_menu">
-                        <li><a href="/role/">内部角色管理</a></li>
-                        <li><a href="/list_sysuser/">普通用户管理</a></li>
-                        <li><a href="editor.html">经纪人用户管理</a></li>
-                        <li><a href="editor.html">二手房源信息管理</a></li>
-                        <li><a href="editor.html">新房房源信息管理</a></li>
-                        <li><a href="editor.html">房东信息管理</a></li>
-                    </ul>
-            <li><a href="#role_menu" class="support">信息审核</a>
+{#             <li><a href="#pt_role_menu" class="widgets">系统管理</a></li>#}
+{#                <span class="arrow"></span>#}
+{#                    <ul id="pt_role_menu">#}
+{#                        <li><a href="/list_sysuser/">普通用户管理</a></li>#}
+{#                        <li><a href="editor.html">经纪人用户管理</a></li>#}
+{#                        <li><a href="editor.html">二手房源信息管理</a></li>#}
+{#                        <li><a href="editor.html">新房房源信息管理</a></li>#}
+{#                        <li><a href="editor.html">房东信息管理</a></li>#}
+{#                    </ul>#}
+            <li><a href="#check_mes" class="support">信息审核</a>
                     <span class="arrow"></span>
-                    <ul id="role_menu">
+                    <ul id="check_mes">
                         <li><a href="/role/">审核广告</a></li>
                         <li><a href="/list_sysuser/">审核房源信息</a></li>
-                        <li><a href="/role/">审核发帖信息</a></li>
+                        <li><a href="/role/">发帖信息</a></li>
                     </ul>
             </li>
             <li><a href="#role_menu" class="support">处理举报投诉信息</a></li>

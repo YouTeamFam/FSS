@@ -11,7 +11,7 @@ def login(request):
         error = None
         username = request.POST.get('username')
         password = request.POST.get('password')
-        password =  hash_encode(password)
+        password = hash_encode(password)
         sup_users = TSup.objects.filter(name=username,pwd=password)#先查询超级管理员
         if sup_users.exists():#如果查到了
             user=sup_users.first()
@@ -34,7 +34,7 @@ def login(request):
                         return render(request, 'login.html', locals())
         request.session['name'] = user.name
         request.session['type'] = user.type
-        return redirect('/')
+        return redirect("/")
 
 
 

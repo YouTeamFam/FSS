@@ -1,0 +1,66 @@
+ <div class="vernav2 iconmenu">
+    	<ul>
+            {% if request.session.type == '超级管理员' %}
+                <li><a href="forms.html" class="widgets">系统管理</a></li>
+                <span class="arrow"></span>
+                    <ul id="role_menu">
+                        <li><a href="/role/">内部角色管理</a></li>
+                        <li><a href="/list_sysuser/">普通用户管理</a></li>
+                        <li><a href="editor.html">经纪人用户管理</a></li>
+                        <li><a href="editor.html">二手房源信息管理</a></li>
+                        <li><a href="editor.html">新房房源信息管理</a></li>
+                        <li><a href="editor.html">房东信息管理</a></li>
+                    </ul>
+                <li><a href="#role_menu" class="support">消息推送</a>
+                    <span class="arrow"></span>
+                    <ul id="role_menu">
+                        <li><a href="/role/">推送消息到用户</a></li>
+                        <li><a href="/list_sysuser/">推送消息到广告商</a></li>
+                    </ul>
+                </li>
+                <li><a href="elements.html" class="drafts">首页管理</a></li>
+                    <span class="arrow"></span>
+                    <ul id="role_menu">
+                        <li><a href="/role/">轮播图</a></li>
+                        <li><a href="/list_sysuser/">二手好房</a></li>
+                        <li><a href="/list_sysuser/">精选租房</a></li>
+                        <li><a href="/list_sysuser/">小区精选</a></li>
+                    </ul>
+            {% endif %}
+
+        {% if request.session.type == '普通管理员' %}
+             <li><a href="forms.html" class="widgets">系统管理</a></li>
+                <span class="arrow"></span>
+                    <ul id="role_menu">
+                        <li><a href="/role/">内部角色管理</a></li>
+                        <li><a href="/list_sysuser/">普通用户管理</a></li>
+                        <li><a href="editor.html">经纪人用户管理</a></li>
+                        <li><a href="editor.html">二手房源信息管理</a></li>
+                        <li><a href="editor.html">新房房源信息管理</a></li>
+                        <li><a href="editor.html">房东信息管理</a></li>
+                    </ul>
+            <li><a href="#role_menu" class="support">信息审核</a>
+                    <span class="arrow"></span>
+                    <ul id="role_menu">
+                        <li><a href="/role/">审核广告</a></li>
+                        <li><a href="/list_sysuser/">审核房源信息</a></li>
+                        <li><a href="/role/">审核发帖信息</a></li>
+                    </ul>
+            </li>
+            <li><a href="#role_menu" class="support">处理举报投诉信息</a></li>
+        {% endif %}
+
+
+        {% if request.session.type == '广告商' %}
+            <li><a href="elements.html" class="tables">查看自己发布的广告</a></li>
+            <li><a href="elements.html" class="gallery">修改自己的广告</a></li>
+            <li><a href="elements.html" class="calendar">图片连接</a></li>
+            <li><a href="elements.html" class="addons">发布广告</a></li>
+        {% endif %}
+        {% if request.session.type == '客服' %}
+            <li><a href="elements.html" class="tables">和用户聊天</a></li>
+        {% endif %}
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->

@@ -18,8 +18,8 @@ class TAdPos(models.Model):
 
 class TAdBm(models.Model):
     ad_bm_id = models.AutoField(primary_key=True)
-    a_uname = models.CharField(max_length=30)
-    a_pwd = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
+    pwd = models.CharField(max_length=30)
     ad_num = models.IntegerField()
     set_time = models.DateTimeField()
     val_ad_num = models.IntegerField()
@@ -47,8 +47,8 @@ class TAd(models.Model):
 
 class TPtAdmin(models.Model):
     pt_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=255)
+    name = models.CharField(max_length=100)
+    pwd = models.CharField(max_length=255)
     type = models.CharField(max_length=100)
 
     class Meta:
@@ -76,8 +76,8 @@ class TAdExpireRenew(models.Model):
 
 class TSup(models.Model):
     sup_id = models.AutoField(primary_key=True)
-    sup_user = models.CharField(max_length=50)
-    sup_pwd = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
+    pwd = models.CharField(max_length=50)
     type = models.CharField(max_length=100)
     class Meta:
         db_table = 't_sup'
@@ -335,10 +335,11 @@ class TSelectRentalHouse(models.Model):
 
 class TServ(models.Model):
     serv_id = models.AutoField(primary_key=True)
-    ser_user = models.CharField(max_length=50,null=True)
-    ser_pwd = models.CharField(max_length=50,  null=True)
+    name = models.CharField(max_length=50,null=True)
+    pwd = models.CharField(max_length=50,  null=True)
     ser_phone = models.CharField(max_length=50, null=True)
     login_state = models.IntegerField(null=True)
+    type = models.CharField(max_length=30,default='客服')
 
     class Meta:
         db_table = 't_serv'

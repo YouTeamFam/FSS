@@ -37,18 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'adapp',
-    'chatRecordapp',
-    'checkapp',
-    'homepageapp',
-    'houseapp',
-    'landlordapp',
     'mainapp',
-    'messageapp',
-    'suggestapp',
-    'systemapp',
-    'transapp',
-    'userapp'
+    'kefuapp',
+    'sup_managerapp',
+    'ad_managerapp',
+    'pt_managerapp',
+
 ]
 
 MIDDLEWARE = [

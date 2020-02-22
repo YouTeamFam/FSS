@@ -4,40 +4,31 @@
                 <li><a href="#role_menu" class="widgets">系统管理</a></li>
                 <span class="arrow"></span>
                     <ul id="role_menu">
-                        <li><a href="/role/">内部角色管理</a></li>
-                        <li><a href="/list_sysuser/">普通用户管理</a></li>
-                        <li><a href="editor.html">经纪人用户管理</a></li>
-                        <li><a href="editor.html">二手房源信息管理</a></li>
-                        <li><a href="editor.html">新房房源信息管理</a></li>
-                        <li><a href="editor.html">房东信息管理</a></li>
+                        <li><a href="/sys_role_manage/">内部角色管理</a></li>
+                        <li><a href="/pt_user_manage/">普通用户管理</a></li>
+                        <li><a href="/broker_manage/">经纪人用户管理</a></li>
+                        <li><a href="s_house_manage">二手房源信息管理</a></li>
+                        <li><a href="n_house_manage">新房房源信息管理</a></li>
+                        <li><a href="fd_manage">房东信息管理</a></li>
                     </ul>
                 <li><a href="#tui_message" class="support">消息推送</a>
                     <span class="arrow"></span>
                     <ul id="tui_message">
-                        <li><a href="/role/">推送消息到用户</a></li>
-                        <li><a href="/list_sysuser/">推送消息到广告商</a></li>
+                        <li><a href="/tui_pt_user/">推送消息到用户</a></li>
+                        <li><a href="/tui_ad/">推送消息到广告商</a></li>
                     </ul>
                 </li>
                 <li><a href="#home_display" class="drafts">首页管理</a></li>
                     <span class="arrow"></span>
                     <ul id="home_display">
-                        <li><a href="/role/">轮播图</a></li>
-                        <li><a href="/list_sysuser/">二手好房</a></li>
-                        <li><a href="/list_sysuser/">精选租房</a></li>
-                        <li><a href="/list_sysuser/">小区精选</a></li>
+                        <li><a href="/home_wheel/">轮播图</a></li>
+                        <li><a href="/home_s_house/">二手好房</a></li>
+                        <li><a href="/home_select_house/">精选租房</a></li>
+                        <li><a href="/home_select_xq/">小区精选</a></li>
                     </ul>
             {% endif %}
 
         {% if request.session.type == '普通管理员' %}
-{#             <li><a href="#pt_role_menu" class="widgets">系统管理</a></li>#}
-{#                <span class="arrow"></span>#}
-{#                    <ul id="pt_role_menu">#}
-{#                        <li><a href="/list_sysuser/">普通用户管理</a></li>#}
-{#                        <li><a href="editor.html">经纪人用户管理</a></li>#}
-{#                        <li><a href="editor.html">二手房源信息管理</a></li>#}
-{#                        <li><a href="editor.html">新房房源信息管理</a></li>#}
-{#                        <li><a href="editor.html">房东信息管理</a></li>#}
-{#                    </ul>#}
             <li><a href="#check_mes" class="support">信息审核</a>
                     <span class="arrow"></span>
                     <ul id="check_mes">

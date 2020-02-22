@@ -42,3 +42,7 @@ def index(request):#登录成功后的页面
     return render(request, 'dashboard.html')
 
 
+def logout(request):
+    request.session.flush()
+    return redirect('/login/')
+

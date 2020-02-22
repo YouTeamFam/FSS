@@ -23,7 +23,7 @@ class TAdBm(models.Model):
     ad_num = models.IntegerField()
     set_time = models.DateTimeField()
     val_ad_num = models.IntegerField()
-    type = models.IntegerField()
+    type = models.CharField(max_length=30)
 
     class Meta:
         db_table = 't_ad_bm'
@@ -38,7 +38,6 @@ class TAd(models.Model):
     ad_url = models.CharField(max_length=255)
     fabu_time = models.DateTimeField(null=True)
     val_time = models.DateTimeField(null=True)
-    is_ok = models.IntegerField(null=True)
     audit_state = models.IntegerField(null=True)
 
     class Meta:

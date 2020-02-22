@@ -23,7 +23,7 @@
                 <tr>
                     <th class="head0">角色ID</th>
                     <th class="head1">名称</th>
-                    <th class="head0">代码</th>
+                    <th class="head0">类型</th>
                     <th class="head1" style="width: 300px">操作</th>
                 </tr>
                 </thead>
@@ -33,7 +33,7 @@
                     <tr class="gradeA">
                         <td>{{ role.id }}</td>
                         <td>{{ role.name }}</td>
-                        <td>{{ role.code }}</td>
+                        <td>{{ role.type }}</td>
                         <td class="center">
                             <button class="stdbtn" onclick="edit_({{ role.id }})">编辑</button>
                             <button class="stdbtn btn_yellow" onclick="delete_({{ role.id }}, '{{ role.name }}')">删除</button>
@@ -56,8 +56,8 @@
         function delete_(role_id, role_name) {
             jConfirm('是否确认删除' + role_name + "?", '删除确认', function (event) {
                 if (event) {
-                    url = '?action=del&role_id=' + role_id
-                    console.log(url)
+                    url = '?action=del&role_id=' + role_id;
+                    console.log(url);
                     window.open(url, target = '_self')
                 }
             })

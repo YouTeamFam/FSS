@@ -1,0 +1,96 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    消息推送
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：消息推送</h1>
+            <span class="pagedesc">可以选择要推送的房东</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px">
+            <div class="contenttitle2">
+                <h3>用户角色</h3>
+            </div><!--contenttitle-->
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th class="head0">角色ID</th>
+                    <th class="head1">用户名</th>
+                    <th class="head0">性别</th>
+                    <th class="head0">在线状态</th>
+                    <th class="head1">电话</th>
+                    <th class="head0">发布房源数</th>
+                    <th class="head1" style="width: 300px">操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for role in users %}
+                    <tr class="gradeA">
+                        <td>{{ role.ld_id}}</td>
+                        <td>{{ role.l_uname }}</td>
+                        <td>{{ role.sex }}</td>
+                        <td>{{ role.status }}</td>
+                        <td>{{ role.phone }}</td>
+                        <td>{{ role.sou_num }}</td>
+                        <td class="center">
+                            <button class="stdbtn btn_black" onclick="select_({{ role.ld_id }})">+</button>
+                            <button class="stdbtn btn_black" onclick="delete_({{ role.ld_id }})">-</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <center>
+                    <tr >
+                        <td colspan="7" style="text-align: center;font-size: 18px;font-weight: bold">
+                            <a href="/select_tui_fd/?pagenumber=1">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {% if users.has_previous %}
+                                <a href="/select_tui_fd/?pagenumber={{ users.previous_page_number }}">上一页</a>
+                            {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:alert('已经是首页了！')">上一页</a>
+                            {% endif %}
+
+                            {% if users.has_next %}
+                                <a href="/select_tui_fd/?pagenumber={{ users.next_page_number }}">下一页</a>
+                            {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:alert('已经是最后一页了！')">下一页</a>
+                            {% endif %}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="/select_tui_fd/?pagenumber={{ paginator.num_pages }}">末页</a>
+                        </td>
+                    </tr>
+                </center>
+                </tbody>
+            </table>
+            <div style="padding: 5px">
+                <button class="stdbtn btn_blue" onclick="fasong_({{ role.ld_id }})">发送</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        var arr1= [];
+        function delete_(role_id) {
+            var index = arr1.indexOf(role_id);
+            arr1.splice(index,1);
+            alert(arr1)
+        }
+        function select_(role_id){
+            arr1.push(role_id);
+            alert(arr1);
+        }
+        function fasong_(role_id){
+            open('/fasong_fd/?ids='+arr1 + "&m_id=" + {{ m_id }}, targt='_self')
+        }
+
+    </script>
+{% endblock %}

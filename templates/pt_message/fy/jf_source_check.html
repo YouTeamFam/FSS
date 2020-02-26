@@ -1,0 +1,147 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    房源审核-二手房
+{% endblock %}
+
+{% block css %}
+  <style>
+    #msg_info{
+        font-size: 1.2em;
+    }
+       #msg_info ul{
+           list-style: none;
+           border: 1px solid lightgray;
+           padding: 5px;
+           border-radius: 5px;
+       }
+
+       #msg_info li{
+           padding: 10px;
+           margin: 5px;
+           height: 320px;
+           background-color: white;
+       }
+
+       #msg_info li:hover{
+           background-color: lightcyan;
+           border-radius: 5px;
+       }
+
+      #msg_info ul::after{
+          content: "";
+          display: block;
+          overflow: auto;
+          clear: both;
+          height: 0;
+          visibility: hidden;
+      }
+    .bottom {
+        position: absolute;
+        bottom: 20px;
+    }
+    .box{
+        border: 1px solid lightblue;
+        width: 100%;
+        height: 240px;
+        overflow: scroll;
+        padding: 5px;
+    }
+
+  dt,dd{
+      padding: 5px;
+      font-size: 15px;
+  }
+
+  .contenttitle3{
+      position: absolute;
+      {#top: 102px;#}
+      left: 200px;
+  }
+    .contenttitle4{
+      position: absolute;
+      {#top: 102px;#}
+      left: 400px;
+  }
+
+  .contenttitle2:hover{
+      background-color:#eaf3fc;
+  }
+
+   .contenttitle3:hover{
+      background-color: #eaf3fc;
+  }
+
+   .contenttitle4:hover{
+      background-color: #eaf3fc;
+  }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：二手房房源审核</h1>
+            <span class="pagedesc">审核房源信息</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px" id="msg_info">
+            <div class="contenttitle2">
+                <h3>待审核-{{ j_source|length }}条记录</h3>
+            </div><!--contenttitle-->
+            <div class="contenttitle3">
+                <h3><a href="/j_message/">查看审核信息</a></h3>
+            </div><!--contenttitle-->
+            <div class="contenttitle4">
+                <h3><a href="/house_check/">房源审核-新房</a></h3>
+            </div><!--contenttitle-->
+            <ul>
+                 {% for source in j_source %}
+                     <li>
+                        <dl>
+                            <dt><b>标题：</b> <span>{{ source.title }}</span>
+                               <i>于 {{  source.pub_date|date:"Y-m-d H:i:s" }} 发布</i>
+                            </dt>
+
+                            <dd class="box">
+                                <p>房东：{{ source.ld.l_name }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;经纪人：{{ source.broker.b_name }}</p>
+                                <p>附近建筑：{{ source.nearby }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;&ensp;所在区域：{{ source.region }}</p>
+                                <p>小区名称：{{ source.comm_name }}&emsp;&emsp;&emsp;&ensp;户&emsp;&emsp;型：{{ source.hu_type }}</p>
+                                <p>单价/平方米：{{ source.price_s }}元&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;面积：{{ source.area}}</p>
+                                <p>总&emsp;&emsp;价：{{ source.sum_price }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;活动价：{{ source.dis_price }}</p>
+                                <p>买&emsp;&emsp;租：{{ source.sell_rent }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;租金：{{ source.rent_money }}</p>
+                                <p>朝&emsp;&emsp;向：{{ source.face }}&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;楼层总数：{{ source.floors }}</p>
+                                <p>详情信息：{{ source.details }}</p>
+                                <p>被收藏次数：{{source.fav_num  }}&emsp;&emsp;&emsp;评论次数：{{ source.comment_num }}&emsp;&emsp;&emsp;被分享次数：{{ source.shared_num }}</p>
+                                <img src="/m/{{  source.img_url }}/" width="200px" height="200px"/>
+                            </dd>
+
+                            <dd>
+                                <button class="stdbtn btn_blue" onclick="window.open('/j_check/?action=yes&id_={{  source.source2_id }}',target='_self')">通过</button>
+                                <button class="stdbtn btn_red" onclick="no_({{ source.source2_id }}, '{{  source.title }}')">不通过</button>
+                            </dd>
+                        </dl>
+                     </li>
+                 {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function no_(id_, name_) {
+            jPrompt( name_ + "未通过审核",'', '审核理由', function (msg) {
+               if(msg!=null){
+                   window.open('/j_check/?action=no&id_='+id_+'&note='+msg, target='_self')
+               }
+            })
+        }
+
+    </script>
+{% endblock %}

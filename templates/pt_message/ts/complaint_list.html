@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    查看投诉举报处理结果
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：详细投诉举报处理结果</h1>
+            <span class="pagedesc">查看详细处理信息</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px">
+            <div class="contenttitle2">
+                <h3>举报投诉记录表</h3>
+            </div><!--contenttitle-->
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th class="head0">举报ID</th>
+                    <th class="head1">举报姓名</th>
+                    <th class="head0">新房小区名</th>
+                    <th class="head0">二手房小区名</th>
+                    <th class="head1">举报内容</th>
+                    <th class="head1">处理人</th>
+                    <th class="head0">投诉电话</th>
+                    <th class="head1">是否被处理</th>
+                    <th class="head0">处理结果</th>
+                    <th class="head0" style="width:90px">操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for complaint in complaint_all %}
+                    <tr class="gradeA">
+                        <td>{{ complaint.report_id }}</td>
+                        <td>{{ complaint.user.u_name }}</td>
+                        <td>{{ complaint.source.comm_name }}</td>
+                        <td>{{ complaint.source2.comm_name }}</td>
+                        <td>内容:请看详细页面....</td>
+                        <td>{{ complaint.pt.name }}</td>
+                        <td>{{ complaint.phone }}</td>
+                        <td >{% if complaint.is_pass == 1 %}
+                                已处理
+                            {% elif complaint.is_pass == 2 %}
+                                未处理
+                        {% endif %}
+                        </td>
+                        <td>{{ complaint.note }}</td>
+                        <td class="center">
+                            <button class="stdbtn" onclick="edit_({{ complaint.report_id }})">查看</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table><br/>
+            <a href="/complaint/"><button class="stdbtn btn_blue">返回首页栏</button></a>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block js %}
+    <script>
+        function edit_(id_){
+            open('/detail_content/?id_='+id_,targt='_self')
+        }
+
+    </script>
+{% endblock %}

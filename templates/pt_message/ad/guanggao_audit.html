@@ -1,0 +1,140 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    广告审核
+{% endblock %}
+
+{% block css %}
+  <style>
+    #msg_info{
+        font-size: 1.2em;
+    }
+       #msg_info ul{
+           list-style: none;
+           border: 1px solid lightgray;
+           padding: 5px;
+           border-radius: 5px;
+       }
+
+       #msg_info li{
+           padding: 10px;
+           margin: 5px;
+           height: 320px;
+           background-color: white;
+       }
+
+       #msg_info li:hover{
+           background-color: lightcyan;
+           border-radius: 5px;
+       }
+
+      #msg_info ul::after{
+          content: "";
+          display: block;
+          overflow: auto;
+          clear: both;
+          height: 0;
+          visibility: hidden;
+      }
+    .bottom {
+        position: absolute;
+        bottom: 20px;
+    }
+    .box{
+        border: 1px solid lightblue;
+        width: 100%;
+        height: 240px;
+        overflow: scroll;
+        padding: 5px;
+    }
+
+  dt,dd{
+      padding: 5px;
+      font-size: 15px;
+  }
+
+  .contenttitle3{
+      position: absolute;
+      {#top: 100px;#}
+      left: 300px;
+  }
+    .contenttitle4{
+      position: absolute;
+      {#top: 100px;#}
+      left: 600px;
+  }
+
+  .contenttitle2:hover{
+      background-color:#eaf3fc;
+  }
+
+   .contenttitle3:hover{
+      background-color: #eaf3fc;
+  }
+
+   .contenttitle4:hover{
+      background-color: #eaf3fc;
+  }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：广告审核</h1>
+            <span class="pagedesc">审核广告信息</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px" id="msg_info">
+            <div class="contenttitle2">
+                <h3>待审核-{{ new_ad|length }}条记录</h3>
+            </div><!--contenttitle-->
+            <div class="contenttitle3">
+                <h3><a href="/ad_list/">查看审核信息</a></h3>
+            </div><!--contenttitle-->
+            <div class="contenttitle4">
+                <h3><a href="/ad_list_all/">查看全部审核记录</a></h3>
+            </div><!--contenttitle-->
+
+            <ul>
+                 {% for ad in new_ad %}
+                     <li>
+                        <dl>
+                            <dt><b>广告标题：</b> <a style="cursor: pointer;" onclick="window.open('{{ ad.ad_url }}')">{{ad.title }}</a>
+                               <i>于 {{ ad.fabu_time|date:"Y-m-d H:i:s" }} 发布</i>
+                            </dt>
+
+                            <dd class="box">
+                                <img src="/m/{{ ad.img_url }}/" />
+                            </dd>
+
+                            <dd>
+                                <button class="stdbtn btn_blue" onclick="window.open('/message_audit/?action=yes&id_={{ ad.ad_id }}',target='_self')">通过</button>
+                                <button class="stdbtn btn_red" onclick="no_({{ ad.ad_id}}, '{{ ad.title }}')">不通过</button>
+                            </dd>
+                        </dl>
+                     </li>
+                 {% endfor %}
+
+            </ul>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function no_(id_, name_) {
+            jPrompt( name_ + "未通过审核",'', '审核理由', function (msg) {
+               if(msg!=null){
+                   window.open('/message_audit/?action=no&id_='+id_+'&note='+msg, target='_self')
+               }
+            })
+        }
+
+    </script>
+{% endblock %}

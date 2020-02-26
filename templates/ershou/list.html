@@ -1,0 +1,116 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    系统角色管理
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：二手房源管理</h1>
+            <span class="pagedesc">可以对房源信息进行删除、修改</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px">
+            <div class="contenttitle2">
+                <h3>房源信息</h3>
+            </div><!--contenttitle-->
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th class="head0">房源ID</th>
+                    <th class="head1">所属房东</th>
+                    <th class="head1">所属经纪人</th>
+                    <th class="head0">标题</th>
+                    <th class="head0">发布日期</th>
+                    <th class="head0">所在区域</th>
+                    <th class="head0">户型</th>
+                    <th class="head0">朝向</th>
+                    <th class="head0">小区名称</th>
+                    <th class="head0">卖/租(元)</th>
+                    <th class="head0">租金(元)</th>
+                    <th class="head0">单价(元)</th>
+                    <th class="head0">面积(平方米)</th>
+                    <th class="head0">总价(万元)</th>
+                    <th class="head0">审核状态</th>
+
+                    <th class="head1" style="width: 100px">操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for fang in fangs %}
+                    <tr class="gradeA">
+                        <td>{{ fang.source2_id }}</td>
+                        <td>{{ fang.ld.l_name }}</td>
+                        <td>{{ fang.broker }}</td>
+                        <td>{{ fang.title }}</td>
+                        <td>{{ fang.pub_date }}</td>
+                        <td>{{ fang.region }}</td>
+                        <td>{{ fang.hu_type }}</td>
+                        <td>{{ fang.face }}</td>
+                        <td>{{ fang.comm_name }}</td>
+                        <td>{{ fang.sell_rent }}</td>
+                        <td>{{ fang.rent_money }}</td>
+                        <td>{{ fang.price_s }}</td>
+                        <td>{{ fang.area }}</td>
+                        <td>{{ fang.sum_price }}</td>
+                        <td>{{ fang.ch_state }}</td>
+
+                        <td class="center">
+                            <button class="stdbtn" onclick="edit_({{ fang.source2_id }})">编辑</button>
+                            <button class="stdbtn btn_yellow" onclick="delete_({{ fang.source2_id }}, '{{ fang.comm_name }}')">删除</button>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                <center>
+                        <tr>
+                            <td colspan="16" style="text-align: center;font-size: 18px;font-weight: bold">
+                                <a href="/ershou_manage/?pagenumber=1">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {% if fangs.has_previous %}
+                                    <a href="/ershou_manage/?pagenumber={{ fangs.previous_page_number }}">上一页</a>
+                                {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:alert('已经是首页了！')">上一页</a>
+                                {% endif %}
+
+                                {% if fangs.has_next %}
+                                    <a href="/ershou_manage/?pagenumber={{ fangs.next_page_number }}">下一页</a>
+                                {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:alert('已经是最后一页了！')">下一页</a>
+                                {% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="/ershou_manage/?pagenumber={{ paginator.num_pages }}">末页</a>
+                            </td>
+                        </tr>
+                </center>
+                </tbody>
+            </table>
+{#            <div style="padding: 5px">#}
+{#                <button class="stdbtn btn_blue" onclick="window.open('/fangdong_role/', target='_self')">新增</button>#}
+{#            </div>#}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function delete_(fang_source2_id, fang_comm_name) {
+            jConfirm('是否确认删除' + fang_comm_name + "?", '删除确认', function (event) {
+                if (event) {
+                    url = '?action=del&fang_source2_id=' + fang_source2_id;
+                    console.log(url);
+                    window.open(url, target = '_self')
+                }
+            })
+        }
+
+        function edit_(fang_source2_id){
+            open('/ershou_role/?fang_source2_id='+fang_source2_id, targt='_self')
+        }
+
+    </script>
+{% endblock %}

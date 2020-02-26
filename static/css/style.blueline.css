@@ -36,6 +36,9 @@
 .userdata ul li a:hover { background-color: #319cff; }
 .hornav li.current a { color: #319cff; }
 .contenttitle2, .widgetbox .title { border-bottom-color: #319cff; }
+.contenttitle3, .widgetbox .title { border-bottom-color: #319cff; }
+.contenttitle4, .widgetbox .title { border-bottom-color: #319cff; }
+
 .toplist li .desc { color: #319cff; }
 .ui-state-active a { color: #319cff; }
 .ui-accordion-header a:hover { color: #319cff; }

@@ -22,4 +22,6 @@ from . import settings
 urlpatterns = [
     path('', include('mainapp.urls')),
     path('', include('sup_managerapp.urls')),
+    path('',include('pt_managerapp.urls')),
+    path('',include('ad_managerapp.urls')),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)  #s上传文件

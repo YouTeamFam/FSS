@@ -1,0 +1,102 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    广告管理
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：广告管理</h1>
+            <span class="pagedesc">可以发布查看广告信息</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px">
+            <div class="contenttitle2">
+                <h3>广告信息</h3>
+            </div><!--contenttitle-->
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th class="head0">广告ID</th>
+                    <th class="head1">位置</th>
+                    <th class="head0">标题</th>
+                    <th class="head0">链接</th>
+                    <th class="head0">图片地址</th>
+                    <th class="head0">发布时间</th>
+                    <th class="head0">有效时间</th>
+                    <th class="head0">审核状态</th>
+                    <th class="head0">没通过理由</th>
+                    <th class="head1" style="width: 200px">操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for ad in ads %}
+                    <tr class="gradeA">
+                        <td>{{ ad.ad_id }}</td>
+                        <td>{{ ad.ad_pos.c_pos }}</td>
+                        <td>{{ ad.title }}</td>
+                        <td><a style="cursor: pointer" onclick="window.open('{{ ad.ad_url }}')">{{ ad.ad_url }}</a></td>
+                        <td>{{ ad.img_url }}</td>
+                        <td>{{ ad.fabu_time }}</td>
+                        <td>{{ ad.val }}</td>
+                        <td>{{ ad.audit_state }}</td>
+                        <td>{{ ad.note }}</td>
+
+                        <td class="center">
+                            <button class="stdbtn" onclick="edit_({{ ad.ad_id }})">修改</button>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                <center>
+                        <tr>
+                            <td colspan="16" style="text-align: center;font-size: 18px;font-weight: bold">
+                                <a href="/ad_manage/?pagenumber=1">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {% if ads.has_previous %}
+                                    <a href="/ad_manage/?pagenumber={{ ads.previous_page_number }}">上一页</a>
+                                {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:alert('已经是首页了！')">上一页</a>
+                                {% endif %}
+
+                                {% if ads.has_next %}
+                                    <a href="/ad_manage/?pagenumber={{ ads.next_page_number }}">下一页</a>
+                                {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:alert('已经是最后一页了！')">下一页</a>
+                                {% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="/ad_manage/?pagenumber={{ paginator.num_pages }}">末页</a>
+                            </td>
+                        </tr>
+                </center>
+                </tbody>
+            </table>
+            <div style="padding: 5px">
+                <button class="stdbtn btn_blue" onclick="window.open('/ad_role/', target='_self')">新增</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function delete_(ad_ad_id, ad_title) {
+            jConfirm('是否确认删除' + ad_title + "?", '删除确认', function (event) {
+                if (event) {
+                    url = '?action=del&fang_source2_id=' + fang_source2_id;
+                    console.log(url);
+                    window.open(url, target = '_self')
+                }
+            })
+        }
+
+        function edit_(ad_ad_id){
+            open('/ad_role/?ad_ad_id='+ad_ad_id, targt='_self')
+        }
+
+    </script>
+{% endblock %}

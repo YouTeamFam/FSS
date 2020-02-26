@@ -1,0 +1,96 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    系统角色管理
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：经纪人管理</h1>
+            <span class="pagedesc">可以对经纪人进行删除、修改和增加</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px">
+            <div class="contenttitle2">
+                <h3>经纪人角色</h3>
+            </div><!--contenttitle-->
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th class="head0">姓名</th>
+                    <th class="head0">公司ID</th>
+                    <th class="head1">用户名</th>
+                    <th class="head0">性别</th>
+                    <th class="head0">在线状态</th>
+                    <th class="head1">电话</th>
+                    <th class="head1" style="width: 300px">操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for role in brokers %}
+                    <tr class="gradeA">
+                        <td>{{ role.b_name }}</td>
+                        <td>{{ role.company_id }}</td>
+                        <td>{{ role.b_uname }}</td>
+                        <td>{{ role.sex }}</td>
+                        <td>{{ role.status }}</td>
+                        <td>{{ role.phone }}</td>
+                        <td class="center">
+                            <button class="stdbtn" onclick="edit_({{ role.broker_id }})">编辑</button>
+                            <button class="stdbtn btn_yellow" onclick="delete_({{ role.broker_id }}, '{{ role.b_uname }}')">删除</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <center>
+                    <tr >
+                        <td colspan="7" style="text-align: center;font-size: 18px;font-weight: bold">
+                            <a href="/broker_manage/?pagenumber=1">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            {% if brokers.has_previous %}
+                                <a href="/broker_manage/?pagenumber={{ brokers.previous_page_number }}">上一页</a>
+                            {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:alert('已经是首页了！')">上一页</a>
+                            {% endif %}
+
+                            {% if brokers.has_next %}
+                                <a href="/broker_manage/?pagenumber={{ brokers.next_page_number }}">下一页</a>
+                            {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="javascript:alert('已经是最后一页了！')">下一页</a>
+                            {% endif %}
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="/broker_manage/?pagenumber={{ paginator.num_pages }}">末页</a>
+                        </td>
+                    </tr>
+                </center>
+                </tbody>
+            </table>
+            <div style="padding: 5px">
+                <button class="stdbtn btn_blue" onclick="window.open('/edit_broker_user/', target='_self')">新增</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function delete_(role_id, role_name) {
+            jConfirm('是否确认删除' + role_name + "?", '删除确认', function (event) {
+                if (event) {
+                    url = '?action=del&role_id=' + role_id;
+                    console.log(url);
+                    window.open(url, target = '_self')
+                }
+            })
+        }
+
+        function edit_(role_id){
+            open('/edit_broker_user/?role_id='+role_id, targt='_self')
+        }
+
+    </script>
+{% endblock %}

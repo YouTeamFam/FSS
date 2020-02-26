@@ -6,7 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+from django.utils import timezone
 
 class TAdPos(models.Model):
     ad_pos_id = models.AutoField(primary_key=True)
@@ -19,28 +19,32 @@ class TAdPos(models.Model):
 class TAdBm(models.Model):
     ad_bm_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
-    pwd = models.CharField(max_length=30)
-    ad_num = models.IntegerField()
-    set_time = models.DateTimeField()
-    val_ad_num = models.IntegerField()
+    pwd = models.CharField(max_length=255)
+    ad_num = models.IntegerField(default=0)
+    set_time = models.DateTimeField(default =timezone.now)
+    val_ad_num = models.IntegerField(default=0)
     type = models.CharField(max_length=30)
 
     class Meta:
         db_table = 't_ad_bm'
 
 
+
+
 class TAd(models.Model):
-    ad_id = models.AutoField(primary_key=True)
-    ad_pos = models.ForeignKey(TAdPos, models.CASCADE)
-    ad_bm = models.ForeignKey(TAdBm, models.CASCADE, null=True)
-    title = models.CharField(max_length=30)
-    img_url = models.CharField(max_length=255)
-    ad_url = models.CharField(max_length=255)
-    fabu_time = models.DateTimeField(null=True)
-    val_time = models.DateTimeField(null=True)
-    audit_state = models.IntegerField(null=True)
+    ad_id = models.AutoField(primary_key=True)  # 广告编号
+    ad_pos = models.ForeignKey(TAdPos, models.CASCADE,default=1)  # 广告位置id
+    ad_bm = models.ForeignKey(TAdBm, models.CASCADE)  # 关联广告商
+    title = models.CharField(max_length=30)  # 标题
+    img_url = models.ImageField(upload_to='ad')  # 图片地址,这里对应的是上传图片对应的路径
+    ad_url = models.CharField(max_length=255)  # 外部连接
+    fabu_time = models.DateTimeField(default=timezone.now)  # 发布时间
+    val = models.IntegerField(default=20)  # 有效时间
+    audit_state = models.IntegerField(default=0)  # 审核状态
+    note = models.TextField(default='略')  # 没通过理由
 
     class Meta:
+        ordering=['ad_id']
         db_table = 't_ad'
 
 
@@ -76,7 +80,7 @@ class TAdExpireRenew(models.Model):
 class TSup(models.Model):
     sup_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-    pwd = models.CharField(max_length=50)
+    pwd = models.CharField(max_length=255)
     type = models.CharField(max_length=100)
     class Meta:
         db_table = 't_sup'
@@ -88,8 +92,7 @@ class TAdNews(models.Model):
     sup = models.ForeignKey(TSup, models.CASCADE, null=True)
     news_title = models.CharField(max_length=50, null=True)
     content = models.CharField(max_length=255, null=True)
-    date = models.DateTimeField(null=True)
-
+    date = models.DateTimeField(default=timezone.now)
     class Meta:
         db_table = 't_ad_news'
 
@@ -109,13 +112,15 @@ class TBroker(models.Model):
     sex = models.CharField(max_length=30)
     phone = models.CharField(max_length=30)
     b_uname = models.CharField(max_length=30)
-    b_pwd = models.CharField(max_length=30)
+    b_pwd = models.CharField(max_length=255)
     avatar_path = models.CharField(db_column='Avatar_path', max_length=255,null=True)  # Field name made lowercase.
-    regi_date = models.DateTimeField()
+    regi_date = models.DateTimeField(default=timezone.now)
     status = models.IntegerField()
     clinch_num = models.IntegerField()
     sou_num = models.IntegerField()
     years = models.IntegerField()
+    mes_text = models.TextField(null=True)
+    mes_title = models.CharField(max_length=50, null=True)
 
     class Meta:
         db_table = 't_broker'
@@ -125,7 +130,7 @@ class TSource(models.Model):
     broker = models.ForeignKey(TBroker, models.CASCADE)
     title = models.CharField(max_length=30)
     img_url = models.CharField(max_length=255)
-    pub_date = models.DateTimeField()
+    pub_date = models.DateTimeField(default=timezone.now)
     nearby = models.CharField(max_length=255, null=True)
     region = models.CharField(max_length=30)
     hu_type = models.CharField(max_length=30, null=True)
@@ -133,15 +138,15 @@ class TSource(models.Model):
     comm_name = models.CharField(max_length=30,null=True)
     area = models.FloatField(null=True)
     sum_price = models.FloatField(null=True)
-    dis_price = models.FloatField( null=True)
     face = models.CharField(max_length=30,null=True)
     details = models.CharField(max_length=255,null=True)
     floors = models.IntegerField(null=True)
     k_time = models.DateTimeField(null=True)
-    ch_state = models.IntegerField(null=True)
-    is_check = models.IntegerField(null=True)
+    ch_state = models.IntegerField(default=0)
+    note = models.TextField(default='略')  # 没通过理由
 
     class Meta:
+        ordering = ['source_id']
         db_table = 't_source'
 
 
@@ -151,22 +156,27 @@ class TLandlord(models.Model):
     sex = models.CharField(max_length=30)
     phone = models.CharField(max_length=30)
     l_uname = models.CharField(max_length=30)
-    l_pwd = models.CharField(max_length=30)
+    l_pwd = models.CharField(max_length=255)
     avatar_path = models.CharField(db_column='Avatar_path', max_length=255,null=True)  # Field name made lowercase.
-    regi_date = models.DateTimeField()
-    last_date = models.DateTimeField()
+    regi_date = models.DateTimeField(default=timezone.now)  # 创建时间，并且可以修改
+    last_date = models.DateTimeField(auto_now=True)  # 修改时间
     status = models.IntegerField()
     sou_num = models.IntegerField()
+    mes_text = models.TextField(null=True)
+    mes_title = models.CharField(max_length=50, null=True)
 
     class Meta:
+        ordering = ['regi_date']
         db_table = 't_landlord'
+
+
 class TSecondSource(models.Model):
     source2_id = models.AutoField(primary_key=True)
     ld = models.ForeignKey(TLandlord, models.CASCADE,null=True)
     broker = models.ForeignKey(TBroker, models.CASCADE,null=True)
-    name = models.CharField(max_length=50, null=True)
+    title = models.CharField(max_length=50, null=True)
     img_url = models.CharField(max_length=255,null=True)
-    pub_date = models.DateTimeField(null=True)
+    pub_date = models.DateTimeField(default=timezone.now)
     nearby = models.CharField(max_length=50,null=True)
     region = models.CharField(max_length=50, null=True)
     hu_type = models.CharField(max_length=50, null=True)
@@ -180,14 +190,14 @@ class TSecondSource(models.Model):
     face = models.CharField(max_length=30, null=True)
     details = models.CharField(max_length=50,null=True)
     floors = models.IntegerField(null=True)
-    k_time = models.DateTimeField(null=True)
-    ch_state = models.IntegerField(null=True)
-    is_check = models.IntegerField(null=True)
+    ch_state = models.IntegerField(default=0)
     fav_num = models.IntegerField(null=True)
     comment_num = models.IntegerField(null=True)
     shared_num = models.IntegerField( null=True)
+    note = models.TextField(default='略')  # 没通过理由
 
     class Meta:
+        ordering = ['source2_id']
         db_table = 't_second_source'
 
 
@@ -219,11 +229,13 @@ class TUser(models.Model):
     u_pwd = models.CharField(max_length=255)
     status = models.IntegerField()
     balance = models.FloatField()
-    regi_date = models.DateTimeField()
-    last_date = models.DateTimeField( null=True)
+    regi_date = models.DateTimeField(default=timezone.now)  # 创建时间，并且可以修改
+    last_date = models.DateTimeField(auto_now=True)  # 修改时间
     times = models.IntegerField( null=True)
     code = models.CharField(max_length=20,null=True)
     code_num = models.IntegerField(null=True)
+    mes_text = models.TextField(null=True)
+    mes_title = models.CharField(max_length=50, null=True)
 
     class Meta:
         db_table = 't_user'
@@ -235,11 +247,10 @@ class TForwardNews(models.Model):
     sup = models.ForeignKey(TSup, models.CASCADE)
     mess_title = models.CharField(max_length=50)
     content = models.CharField(max_length=255)
-    date = models.DateTimeField(null=True)
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_forward_news'
-
 
 
 
@@ -261,10 +272,11 @@ class TNewTransaction(models.Model):
     user = models.ForeignKey(TUser, models.CASCADE)
     source = models.ForeignKey(TSource, models.CASCADE)
     deposit_amount = models.FloatField()
-    deposit_date = models.DateTimeField(null=True)
+    deposit_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_new_transaction'
+
 
 
 class TRentalTransaction(models.Model):
@@ -272,7 +284,7 @@ class TRentalTransaction(models.Model):
     user = models.ForeignKey(TUser, models.CASCADE)
     source2 = models.ForeignKey(TSecondSource, models.CASCADE)
     deposit_amount = models.FloatField()
-    deposit_date = models.DateTimeField(null=True)
+    deposit_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_rental_transaction'
@@ -286,8 +298,9 @@ class TReportComplaints(models.Model):
     pt = models.ForeignKey(TPtAdmin, models.CASCADE, null=True)
     content = models.TextField(null=True)
     phone = models.CharField(max_length=30, null=True)
-    date = models.DateTimeField( null=True)
+    date = models.DateTimeField(default=timezone.now)
     is_pass = models.IntegerField()
+    note = models.TextField(default='')   #处理结果
 
     class Meta:
         db_table = 't_report_complaints'
@@ -335,9 +348,9 @@ class TSelectRentalHouse(models.Model):
 class TServ(models.Model):
     serv_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50,null=True)
-    pwd = models.CharField(max_length=50,  null=True)
+    pwd = models.CharField(max_length=255,  null=True)
     ser_phone = models.CharField(max_length=50, null=True)
-    login_state = models.IntegerField(null=True)
+    login_state = models.IntegerField(default=0)
     type = models.CharField(max_length=30,default='客服')
 
     class Meta:
@@ -351,15 +364,18 @@ class TUserVip(models.Model):
 
     class Meta:
         db_table = 't_user_VIP'
+
+
 class TUserPost(models.Model):
     post_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(TUser, models.CASCADE)
     title = models.CharField(max_length=255)
     content = models.TextField()
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_user_post'
+
 
 class TUserComment(models.Model):
     comment_id = models.AutoField(primary_key=True)
@@ -369,7 +385,7 @@ class TUserComment(models.Model):
     post = models.ForeignKey(TUserPost, models.CASCADE)
     content = models.TextField()
     comment_type = models.CharField(max_length=100)
-    date = models.DateTimeField()
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_user_comment'
@@ -380,7 +396,7 @@ class TUserFavourity(models.Model):
     user = models.ForeignKey(TUser, models.CASCADE)
     source = models.ForeignKey(TSource, models.CASCADE, null=True)
     source2 = models.ForeignKey(TSecondSource, models.CASCADE,null=True)
-    date = models.DateTimeField(null=True)
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_user_favourity'
@@ -391,7 +407,7 @@ class TUserHistory(models.Model):
     user = models.ForeignKey(TUser, models.CASCADE)
     source = models.ForeignKey(TSource, models.CASCADE, null=True)
     source2 = models.ForeignKey(TSecondSource, models.CASCADE, null=True)
-    date = models.DateTimeField(null=True)
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_user_history'
@@ -412,7 +428,7 @@ class TUserLd(models.Model):
     user = models.ForeignKey(TUser, models.CASCADE, null=True)
     ld = models.ForeignKey(TLandlord, models.CASCADE,null=True)
     content = models.TextField(null=True)
-    date = models.DateTimeField(null=True)
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_user_ld'
@@ -426,7 +442,7 @@ class TUserRecharge(models.Model):
     user = models.ForeignKey(TUser, models.CASCADE)
     recharge_type = models.CharField(max_length=50,  null=True)
     recharge_amount = models.FloatField()
-    date = models.DateTimeField(null=True)
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_user_recharge'
@@ -437,7 +453,7 @@ class TUserServ(models.Model):
     serv = models.ForeignKey(TServ, models.CASCADE, null=True)
     user = models.ForeignKey(TUser, models.CASCADE, null=True)
     content = models.TextField(null=True)
-    date = models.DateTimeField(null=True)
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_user_serv'
@@ -448,7 +464,7 @@ class TUserShare(models.Model):
     user = models.ForeignKey(TUser, models.CASCADE)
     source = models.ForeignKey(TSource, models.CASCADE)
     source2 = models.ForeignKey(TSecondSource, models.CASCADE)
-    date = models.DateTimeField(null=True)
+    date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         db_table = 't_user_share'

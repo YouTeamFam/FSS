@@ -1,0 +1,104 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    系统角色管理
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：房东管理</h1>
+            <span class="pagedesc">可以对房东信息进行删除、修改和增加</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px">
+            <div class="contenttitle2">
+                <h3>房东角色</h3>
+            </div><!--contenttitle-->
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                <tr>
+                    <th class="head0">角色ID</th>
+                    <th class="head1">姓名</th>
+                    <th class="head1">性别</th>
+                    <th class="head0">电话</th>
+                    <th class="head0">创建日期</th>
+                    <th class="head0">修改日期</th>
+                    <th class="head0">在线状态</th>
+                    <th class="head0">发布房源数</th>
+                    <th class="head0">头像地址</th>
+
+                    <th class="head1" style="width: 300px">操作</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for fangdong in fangdongs %}
+                    <tr class="gradeA">
+                        <td>{{ fangdong.ld_id }}</td>
+                        <td>{{ fangdong.l_name }}</td>
+                        <td>{{ fangdong.sex }}</td>
+                        <td>{{ fangdong.phone }}</td>
+                        <td>{{ fangdong.regi_date }}</td>
+                        <td>{{ fangdong.last_date }}</td>
+                        <td>{{ fangdong.status }}</td>
+                        <td>{{ fangdong.sou_num }}</td>
+                        <td>{{ fangdong.avatar_path }}</td>
+
+                        <td class="center">
+                            <button class="stdbtn" onclick="edit_({{ fangdong.ld_id }})">编辑</button>
+                            <button class="stdbtn btn_yellow" onclick="delete_({{ fangdong.ld_id }}, '{{ fangdong.l_name }}')">删除</button>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+                <center>
+                        <tr>
+                            <td colspan="10" style="text-align: center;font-size: 18px;font-weight: bold">
+                                <a href="/fd_manage/?pagenumber=1">首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                {% if fangdongs.has_previous %}
+                                    <a href="/fd_manage/?pagenumber={{ fangdongs.previous_page_number }}">上一页</a>
+                                {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:alert('已经是首页了！')">上一页</a>
+                                {% endif %}
+
+                                {% if fangdongs.has_next %}
+                                    <a href="/fd_manage/?pagenumber={{ fangdongs.next_page_number }}">下一页</a>
+                                {% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:alert('已经是最后一页了！')">下一页</a>
+                                {% endif %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="/fd_manage/?pagenumber={{ paginator.num_pages }}">末页</a>
+                            </td>
+                        </tr>
+                </center>
+                </tbody>
+            </table>
+            <div style="padding: 5px">
+                <button class="stdbtn btn_blue" onclick="window.open('/fangdong_role/', target='_self')">新增</button>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function delete_(fangdong_ld_id, fangdong_l_name) {
+            jConfirm('是否确认删除' + fangdong_l_name + "?", '删除确认', function (event) {
+                if (event) {
+                    url = '?action=del&fangdong_ld_id=' + fangdong_ld_id;
+                    console.log(url);
+                    window.open(url, target = '_self')
+                }
+            })
+        }
+
+        function edit_(fangdong_ld_id){
+            open('/fangdong_role/?fangdong_ld_id='+fangdong_ld_id, targt='_self')
+        }
+
+    </script>
+{% endblock %}

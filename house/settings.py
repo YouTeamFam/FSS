@@ -141,6 +141,3 @@ STATICFILES_DIRS = [
 #上传文件
 MEDIA_URL = '/m/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-
-
-

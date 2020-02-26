@@ -34,6 +34,9 @@
 .pageheader .pagetitle { color: #333; }
 .hornav li.current a { color: #333; }
 .contenttitle2 { border-bottom-color: #ff4800; color: #333; }
+.contenttitle3 { border-bottom-color: #ff4800; color: #333; }
+.contenttitle4 { border-bottom-color: #ff4800; color: #333; }
+
 .toplist li .desc { color: #999; }
 .shortcuts li a:hover { border-color: #000; }
 .widgetbox .title { color: #333; border-bottom-color: #ff4800; }
@@ -46,6 +49,9 @@
 .userdata ul li a:hover { background-color: #ff4800; }
 .hornav li.current a { color: #ff4800; }
 .contenttitle2, .widgetbox .title { border-bottom-color: #ff4800; }
+.contenttitle3, .widgetbox .title { border-bottom-color: #ff4800; }
+.contenttitle4, .widgetbox .title { border-bottom-color: #ff4800; }
+
 .toplist li .desc { color: #ff4800; }
 .ui-state-active a { color: #ff4800; }
 .ui-accordion-header a:hover { color: #ff4800; }

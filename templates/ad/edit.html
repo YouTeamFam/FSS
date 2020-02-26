@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    广告管理
+{% endblock %}
+
+{% block css %}
+    <script type="text/javascript" src="/s/js/custom/forms.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：广告管理</h1>
+            <span class="pagedesc">可以发布查看广告</span>
+
+        </div><!--pageheader-->
+
+        <div id="basicform " style="margin: 10px" class="messagebox">
+            <div class="contenttitle2">
+                <h3>{% if ad_ad_id %}编辑{% else %}新增{% endif %}广告信息</h3>
+            </div><!--contenttitle-->
+
+            {% if errors %}
+                <ul style="list-style: none;margin: 5px;padding: 5px;">
+
+                    {% for error in errors.values %}
+                        <li style="color:red"> <span class="circle-dot-red"></span> {{ error.0.message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <form class="stdform stdform2" method="post" enctype="multipart/form-data">
+
+                <p>
+                    <label>广告标题</label>
+                    <span class="field">
+                        {% csrf_token %}
+                        <input type="text" name="title" class="longinput" value="{% if ad %}{{ ad.title }}{% else %}{{ form.title.value }}{% endif %}"/>
+                         <input type="hidden" name="ad_id" value="{{ ad.ad_id }}">
+                        <input type="hidden" name="ad_bm" value="{{ ren.ad_bm_id }}">
+{#                        <input type="hidden" name="user_id" value="{{ request.session.login_user._id }}" >#}
+                    </span>
+                </p>
+{#                <p>#}
+{#                    <label>广告商编号</label>#}
+{#                    <span class="field">#}
+{#                        {% csrf_token %}#}
+{#                        <input type="text" name="ad_bm_id" class="longinput" value="{% if ad %}{{ ad.ad_bm_id }}{% else %}{{ form.ad_bm_id.value }}{% endif %}"/>#}
+{#                         <input type="hidden" name="ad_id" value="{{ ad.ad_id }}">#}
+{#                    </span>#}
+{#                </p>#}
+{#               <p>#}
+{#                    <label>标题</label>#}
+{#                    <span class="field">#}
+{#                        <input type="text" name="title"  class="longinput" value="{% if ad %}{{ ad.title }}{% else %}{{ form.title.value }}{% endif %}"/>#}
+{#                    </span>#}
+{#                </p>#}
+{#                <p>#}
+{#                    <label>广告位置</label>#}
+{#                    <span class="field">#}
+{#                        <input type="text" name="ad_pos_id"  class="longinput" value="{% if ad %}{{ ad.ad_pos_id }}{% else %}{{ form.ad_pos_id.value }}{% endif %}"/>#}
+{#                    </span>#}
+{#                </p>#}
+                <p>
+                    <label>外部链接</label>
+                    <span class="field">
+                        <input type="text" name="ad_url"  class="longinput" value="{% if ad %}{{ ad.ad_url }}{% else %}{{ form.ad_url.value }}{% endif %}"/>
+                    </span>
+                </p>
+            <p>
+
+
+                    {%  if ad %}
+                     <img src="/m/{{ ad.img_url }}/" class="rounded" alt="Cinque Terre" width="304" height="236">
+                    {% endif %}
+
+                <input type="file"  name="img_url" >
+
+
+            </p>
+            <button  class="btn btn-outline-primary" style="width: 150px;"  >提交</button>
+
+            </form>
+                    
+        </div>
+    </div>
+
+{% endblock %}
+
+{#{% block js %}#}
+{#    <script>#}
+{#        function delete_(role_id, role_name) {#}
+{#            jConfirm('是否确认删除' + role_name + "?", '删除确认', function (event) {#}
+{#                if (event) {#}
+{#                    url = '?action=del&role_id=' + role_id#}
+{#                    console.log(url)#}
+{#                    open(url, target = '_self')#}
+{#                }#}
+{#            })#}
+{#        }#}
+{#    </script>#}
+{#{% endblock %}#}

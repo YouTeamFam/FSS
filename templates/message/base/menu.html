@@ -1,0 +1,54 @@
+ <div class="vernav2 iconmenu">
+    	<ul>
+            {% if request.session.type == '超级管理员' %}
+                <li><a href="#role_menu" class="widgets">系统管理</a></li>
+                <span class="arrow"></span>
+                    <ul id="role_menu">
+                        <li><a href="/sys_role_manage/">内部角色管理</a></li>
+                        <li><a href="/pt_user_manage/">普通用户管理</a></li>
+                        <li><a href="/broker_manage/">经纪人用户管理</a></li>
+                        <li><a href="/ershou_manage/">二手房源信息管理</a></li>
+                        <li><a href="/xinfang_manage/">新房房源信息管理</a></li>
+                        <li><a href="/fd_manage/">房东信息管理</a></li>
+                    </ul>
+                <li><a href="#tui_message" class="support">消息推送</a>
+                    <span class="arrow"></span>
+                    <ul id="tui_message">
+                        <li><a href="/tui_pt_user/">推送消息到用户</a></li>
+                        <li><a href="/tui_mes_fd/">推送消息到房东</a></li>
+                        <li><a href="/tui_mes_jjr/">推送消息到经纪人</a></li>
+                    </ul>
+                </li>
+                <li><a href="#home_display" class="drafts">首页管理</a></li>
+                    <span class="arrow"></span>
+                    <ul id="home_display">
+                        <li><a href="/home_wheel/">轮播图</a></li>
+                        <li><a href="/home_s_house/">二手好房</a></li>
+                        <li><a href="/home_select_house/">精选租房</a></li>
+                        <li><a href="/home_select_xq/">小区精选</a></li>
+                    </ul>
+            {% endif %}
+
+        {% if request.session.type == '普通管理员' %}
+            <li><a href="#check_mes" class="support">信息审核</a>
+                    <span class="arrow"></span>
+                    <ul id="check_mes">
+                        <li><a href="/role/">审核广告</a></li>
+                        <li><a href="/list_sysuser/">审核房源信息</a></li>
+                        <li><a href="/role/">发帖信息</a></li>
+                    </ul>
+            </li>
+            <li><a href="#role_menu" class="support">处理举报投诉信息</a></li>
+        {% endif %}
+
+
+        {% if request.session.type == '广告商' %}
+            <li><a href="/ad_manage/">广告信息管理</a></li>
+        {% endif %}
+        {% if request.session.type == '客服' %}
+            <li><a href="elements.html" class="tables">和用户聊天</a></li>
+        {% endif %}
+        </ul>
+        <a class="togglemenu"></a>
+        <br /><br />
+    </div><!--leftmenu-->

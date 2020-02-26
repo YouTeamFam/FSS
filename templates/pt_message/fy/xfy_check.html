@@ -1,0 +1,101 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    查看审核信息
+{% endblock %}
+
+{% block content %}
+
+    <div class="centercontent tables">
+
+        <div class="pageheader notab">
+            <h1 class="pagetitle">当前位置：查看房源审核信息</h1>
+            <span class="pagedesc">查看审核记录和删除未通过的房源信息</span>
+
+        </div><!--pageheader-->
+
+        <div style="margin: 10px">
+            <div class="contenttitle2">
+                <h3>新房房源审核信息</h3>
+            </div><!--contenttitle-->
+            <table cellpadding="0" cellspacing="0" border="0" class="stdtable">
+                <thead>
+                    <tr>
+                        <th class="head0">房源ID</th>
+                        <th class="head1">标题</th>
+                        <th class="head1">发布日期</th>
+                        <th class="head1">经纪人</th>
+                        <th class="head1">小区名称</th>
+                        <th class="head1">附近建筑</th>
+                        <th class="head1">所在区域</th>
+                        <th class="head1">户型</th>
+                        <th class="head1">单价/平方米</th>
+                        <th class="head1">面积</th>
+                        <th class="head0">总价</th>
+                        <th class="head1">朝向</th>
+                        <th class="head1">楼层总数</th>
+                        <th class="head1">详情信息</th>
+                        <th class="head1">开盘时间</th>
+                        <th class="head1">审核状态</th>
+                        <th class="head1">不通过理由</th>
+                        <th class="head0" style="width:110px">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for source in x_source %}
+                        <tr class="gradeA">
+                            <td>{{ source.source_id }}</td>
+                            <td>{{ source.title }}</td>
+                            <td>{{ source.pub_date }}</td>
+                            <td>{{ source.broker.b_name }}</td>
+                            <td>{{ source.comm_name }}</td>
+                            <td>{{ source.nearby }}</td>
+                            <td>{{ source.region }}</td>
+                            <td>{{ source.hu_type }}</td>
+                            <td>{{ source.price_s }}</td>
+                            <td>{{ source.area }}</td>
+                            <td>{{ source.sum_price }}</td>
+                            <td>{{ source.face }}</td>
+                            <td>{{ source.floors }}</td>
+                            <td>{{ source.details }}</td>
+                            <td>{{ source.k_time }}</td>
+                            <td><span style="cursor: pointer" >{% if source.ch_state == 1 %}
+                                已通过
+                                {% elif source.ch_state == 2 %}
+                                    未通过
+                            {% endif %}
+                            </span>
+                            </td>
+                            <td ><span style="cursor: pointer" >{{ source.note }}</span></td>
+                            <td class="center">
+                                 <button class="stdbtn" onclick="edit_({{ source.source_id }},{{ source.ch_state }})">查看</button>
+                                 <button class="stdbtn btn_yellow" onclick="delete_({{ source.source_id }}, '{{ source.title }}')">删除</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table><br/>
+            <a href="/house_check/"><button class="stdbtn btn_blue">返回首页审核栏</button></a>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+        function delete_(id_, name_) {
+            jConfirm('是否确认删除' + name_ + "?", '删除确认', function (event) {
+                if (event) {
+                    url = '?action=del&id_=' + id_;
+                    console.log(url);
+                    window.open(url, target = '_self')
+                }
+            })
+        }
+
+        function edit_(id_,status){
+            open('/x_one/?id_='+id_ + '&'+ 'status=' + status,targt='_self')
+        }
+
+    </script>
+{% endblock %}

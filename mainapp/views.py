@@ -20,7 +20,7 @@ def login(request):
             if pt_users.exists():#如果查到了
                 user=pt_users.first()
             else:
-                kf_users = TServ.objects.filter(name=username,pwd=username)#查询客服
+                kf_users = TServ.objects.filter(name=username,pwd=password)#查询客服
                 if kf_users.exists():
                     user=kf_users.first()
                     user.login_state=1

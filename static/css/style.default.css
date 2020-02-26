@@ -547,6 +547,12 @@ body.withmenucoll2 { background-position: 35px 0; } /* with menu style 2 in coll
 .contenttitle2 { margin: 20px 0; border-bottom: 2px solid #FB9337; padding-bottom: 5px; padding-right: 20px; display: inline-block; }
 .contenttitle2 h3 { font-size: 16px; font-weight: normal; text-transform: uppercase; }
 
+.contenttitle3 { margin: 20px 0; border-bottom: 2px solid #FB9337; padding-bottom: 5px; padding-right: 20px; display: inline-block; }
+.contenttitle3 h3 { font-size: 16px; font-weight: normal; text-transform: uppercase; }
+
+.contenttitle4 { margin: 20px 0; border-bottom: 2px solid #FB9337; padding-bottom: 5px; padding-right: 20px; display: inline-block; }
+.contenttitle4 h3 { font-size: 16px; font-weight: normal; text-transform: uppercase; }
+
 
 
 /***** 13. DASHBOARD STYLES *****/
@@ -840,7 +846,7 @@ input.hasDatepicker {
 /**************************************/
 
 
-.stdtable { width: 100%; }
+.stdtable { width: 100%;}
 .stdtable .con0 { background: #fff; }
 .stdtable .con1 { background: #fcfcfc; }
 .stdtable th, .stdtable td { line-height: 21px; vertical-align: middle; color: #333; }

@@ -157,11 +157,11 @@ class TLandlord(models.Model):
     phone = models.CharField(max_length=30)
     l_uname = models.CharField(max_length=30)
     l_pwd = models.CharField(max_length=255)
-    avatar_path = models.CharField(db_column='Avatar_path', max_length=255,null=True)  # Field name made lowercase.
+    avatar_path = models.CharField(db_column='Avatar_path', max_length=255,default='')  # Field name made lowercase.
     regi_date = models.DateTimeField(default=timezone.now)  # 创建时间，并且可以修改
     last_date = models.DateTimeField(auto_now=True)  # 修改时间
-    status = models.IntegerField()
-    sou_num = models.IntegerField()
+    status = models.IntegerField(default=1)
+    sou_num = models.IntegerField(default=0)
     mes_text = models.TextField(null=True)
     mes_title = models.CharField(max_length=50, null=True)
 

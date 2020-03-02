@@ -38,7 +38,7 @@
                     <label>小区名称</label>
                     <span class="field">
                     {% csrf_token %}
-                        <select name="source2_id">
+                        <select name="source_id">
                             {% if xq_source %}
                                 <option selected="selected" value="{{ source.source_id }}">{{ comm_name }}</option>
                             {% endif %}

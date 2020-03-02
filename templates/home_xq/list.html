@@ -31,7 +31,7 @@
                 {% for role in xqs %}
                     <tr class="gradeA">
                         <td>{{ role.comm_hpk_id }}</td>
-                        <td>{{ role.source2.title }}</td>
+                        <td>{{ role.source.comm_name }}</td>
                         <td class="center">
                             <button class="stdbtn" onclick="edit_({{ role.comm_hpk_id }})">编辑</button>
                             <button class="stdbtn btn_yellow" onclick="delete_({{ role.comm_hpk_id }})">删除</button>

@@ -338,7 +338,7 @@ class TSecondHandTransaction(models.Model):
 
 
 class TSelectRentalHouse(models.Model):
-    sselect_good_id = models.AutoField(primary_key=True)
+    select_good_id = models.AutoField(primary_key=True)
     source2 = models.ForeignKey(TSecondSource, models.CASCADE,null=True)
 
     class Meta:

@@ -473,8 +473,9 @@ class TUserShare(models.Model):
 class TWheelPic(models.Model):
     wheel_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, null=True)
-    house_url = models.CharField(max_length=255,null=True)
-    link = models.CharField(max_length=255,null=True)
+    house_detail = models.CharField(max_length=255, null=True)
+    img_path = models.ImageField(upload_to='wheel')
 
     class Meta:
+        ordering = ['wheel_id']
         db_table = 't_wheel_pic'

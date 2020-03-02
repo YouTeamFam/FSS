@@ -5,6 +5,8 @@ from tools.md5_ import hash_encode
 import datetime
 # Create your views here.
 from sup_managerapp.models import *
+from mainapp.models import *
+from sup_managerapp.forms import *
 from django.views import View
 def sys_role_manage(request):
     pass
@@ -464,4 +466,149 @@ def fasong_jjr(request):
 
 
 
+def home_wheel(request):
+    action = request.GET.get('action', '')
+    if action == 'del':
+        TWheelPic.objects.get(pk=request.GET.get('get_wheel_id')).delete()  # 删除配置的轮播图
+        return redirect('/home_wheel/')
+    pagenumber = request.GET.get('pagenumber', 1)
+    allwheels = TWheelPic.objects.all()
+    paginator = Paginator(allwheels, 5)
+    wheels = paginator.page(pagenumber)
+    return render(request, 'home_wheel/list.html', locals())
+
+
+class WheelView(View):
+    def get(self, request):
+        get_wheel_id = request.GET.get('get_wheel_id', '')
+        if get_wheel_id:
+            whe = TWheelPic.objects.get(pk=get_wheel_id)
+        return render(request, 'home_wheel/edit.html', locals())
+
+    def post(self, request):
+        w_id = request.POST.get('get_wheel_id', '')  # 判断新增还是编辑
+        if w_id:
+            form = WheelForm(request.POST, request.FILES, instance=TWheelPic.objects.get(pk=w_id))
+        else:
+            form = WheelForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            # wh = TWheelPic.objects.get(pk=request.POST.get('wheel_id'))
+            return redirect('/home_wheel/')
+        errors = json.loads(form.errors.as_json())
+        return render(request, 'home_wheel/edit.html', locals())
+
+
+def home_sec(request):
+    action = request.GET.get('action','')
+    if action == 'del':
+        TSecondGoodHouse.objects.get(pk=request.GET.get('get_second_id')).delete()
+        return redirect('/home_sec/')
+    pagenumber = request.GET.get('pagenumber',1)
+    allgoods = TSecondGoodHouse.objects.all()
+    paginator = Paginator(allgoods,5)
+    goods = paginator.page(pagenumber)
+    return render(request, 'sec_good_house/list.html', locals())
+
+class SecView(View):
+    def get(self,request):
+        get_good_id = request.GET.get('get_good_id','')
+        if get_good_id:
+            good_source = TSecondGoodHouse.objects.get(pk=get_good_id)
+            sec_source = TSecondSource.objects.get(pk=good_source.source2_id)
+            s_title = sec_source.title
+        sec_sources = TSecondSource.objects.all()
+        return render(request,'sec_good_house/edit.html',locals())
+    def post(self,request):
+        get_good_id = request.GET.get('get_good_id','')
+        if get_good_id:
+            good_source = TSecondGoodHouse.objects.get(pk=get_good_id)
+            sou_id = request.POST.get('source2_id')
+            source2 = TSecondSource.objects.get(pk=sou_id)
+            good_source.source2_id = source2.source2_id
+            good_source.save()
+            print("修改成功")
+            return redirect('/home_sec/')
+
+        else:
+            sou_id = request.POST.get('source2_id')
+            source2 = TSecondSource.objects.get(pk=sou_id)
+            TSecondGoodHouse.objects.create(source2=source2)
+            return redirect('/home_sec/')
+
+
+def home_rental(request):
+    action = request.GET.get('action','')
+    if action == 'del':
+        TSelectRentalHouse.objects.get(pk=request.GET.get('get_rental_id')).delete()
+        return redirect('/home_rental/')
+    pagenumber = request.GET.get('pagenumber',1)
+    allrentals = TSelectRentalHouse.objects.all()
+    paginator = Paginator(allrentals,5)
+    rentals = paginator.page(pagenumber)
+    return render(request, 'home_rental/list.html', locals())
+
+class RentalView(View):
+    def get(self,request):
+        get_rental_id = request.GET.get('get_rental_id','')
+        if get_rental_id:
+            rental_source = TSelectRentalHouse.objects.get(pk=get_rental_id)
+            sec_source = TSecondSource.objects.get(pk=rental_source.source2_id)
+            s_title = sec_source.title
+        sec_sources = TSecondSource.objects.all()
+        return render(request,'home_rental/edit.html',locals())
+    def post(self,request):
+        get_rental_id = request.GET.get('get_rental_id','')
+        if get_rental_id:
+            rental_source = TSelectRentalHouse.objects.get(pk=get_rental_id)
+            sou_id = request.POST.get('source2_id')
+            source2 = TSecondSource.objects.get(pk=sou_id)
+            rental_source.source2_id = source2.source2_id
+            rental_source.save()
+            print("修改成功")
+            return redirect('/home_rental/')
+
+        else:
+            sou_id = request.POST.get('source2_id')
+            source2 = TSecondSource.objects.get(pk=sou_id)
+            TSelectRentalHouse.objects.create(source2=source2)
+            return redirect('/home_rental/')
+
+def home_xq(request):
+    action = request.GET.get('action','')
+    if action == 'del':
+        TCommunity.objects.get(pk=request.GET.get('get_xq_id')).delete()
+        return redirect('/home_xq/')
+    pagenumber = request.GET.get('pagenumber',1)
+    allxqs = TCommunity.objects.all()
+    paginator = Paginator(allxqs,5)
+    xqs = paginator.page(pagenumber)
+    return render(request, 'home_xq/list.html', locals())
+
+class XqView(View):
+    def get(self,request):
+        get_xq_id = request.GET.get('get_xq_id','')
+        if get_xq_id:
+            xq_source = TCommunity.objects.get(pk=get_xq_id)
+            source = TSource.objects.get(pk=xq_source.source_id)
+            comm_name = source.comm_name
+        sources = TSource.objects.all()
+        return render(request,'home_xq/edit.html',locals())
+    def post(self,request):
+        get_xq_id = request.GET.get('get_xq_id','')
+        if get_xq_id:
+            xq_source = TCommunity.objects.get(pk=get_xq_id)
+            sou_id = request.POST.get('source_id')
+            source = TSource.objects.get(pk=sou_id)
+            xq_source.source_id = source.source_id
+            xq_source.save()
+            print("修改成功")
+            return redirect('/home_xq/')
+
+        else:
+            sou_id = request.POST.get('source_id')
+            source = TSource.objects.get(pk=sou_id)
+            TCommunity.objects.create(source=source)
+            return redirect('/home_xq/')
 

@@ -132,3 +132,16 @@ class MessageForm(forms.ModelForm):
 
 
 
+class WheelForm(forms.ModelForm):
+    class Meta:
+        model = TWheelPic
+        fields = ['title','house_detail','img_path']
+        error_messages = {
+            'title':{
+                'required': '标题不能为空'
+            },
+            'house_detail':{
+                'required':'房源信息不能为空'
+            }
+        }
+

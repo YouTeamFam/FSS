@@ -372,7 +372,7 @@ class TUserPost(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     date = models.DateTimeField(default=timezone.now)
-
+    tie_pic = models.CharField(max_length=255)
     class Meta:
         db_table = 't_user_post'
 

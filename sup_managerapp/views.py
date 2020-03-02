@@ -108,6 +108,7 @@ class Edit_ptuser_View(View):
         else:
             name = request.POST.get("u_name")
             password = request.POST.get("u_pwd")
+            password = hash_encode(password)
             sex = request.POST.get("sex")
             phone = request.POST.get("phone")
             # time1 = datetime.datetime.now()
@@ -156,20 +157,21 @@ class Edit_broker_View(View):
             name = request.POST.get("b_name")
             uname = request.POST.get("b_uname")
             password = request.POST.get("b_pwd")
+            password = hash_encode(password)
             sex = request.POST.get("sex")
             phone = request.POST.get("phone")
             common_id = request.POST.get("common_name")
             company = TCompany.objects.filter(company_id=common_id).first()
-            jjr.b_name=name
-            jjr.b_uname=uname
-            jjr.b_pwd=password
-            jjr.sex=sex
-            jjr.phone=phone
-            jjr.status=0
-            jjr.clinch_num=0
-            jjr.sou_num=0
-            jjr.years=0
-            jjr.company=company
+            jjr.b_name = name
+            jjr.b_uname = uname
+            jjr.b_pwd = password
+            jjr.sex = sex
+            jjr.phone = phone
+            jjr.status = 0
+            jjr.clinch_num = 0
+            jjr.sou_num = 0
+            jjr.years = 0
+            jjr.company = company
             jjr.save()
             print("修改成功")
             return redirect('/broker_manage/')
